@@ -10,6 +10,7 @@
     "clean": "find ./bin ./lib ./test -type f \\( -name \"*.js\" -o -name \"*.d.ts\" \\) -delete && rm -rf cdk.out",
     "clean:all": "npm run clean && rm -rf node_modules && npm install",
     "format:package-json": "sort-package-json && prettier --write package.json",
+    "lint": "eslint '*/**/*.{ts,tsx}' && npm run prettier:check",
     "prettier:check": "prettier --check '*/**/*.{ts,tsx}'",
     "prettier:fix": "prettier --write '*/**/*.{ts,tsx}'",
     "test": "jest",
@@ -23,7 +24,10 @@
   "devDependencies": {
     "@types/jest": "^29.5.5",
     "@types/node": "20.7.1",
+    "@typescript-eslint/eslint-plugin": "^6.7.4",
+    "@typescript-eslint/parser": "^6.7.4",
     "aws-cdk": "2.100.0",
+    "eslint": "^8.51.0",
     "jest": "^29.7.0",
     "prettier": "^3.0.3",
     "sort-package-json": "^2.6.0",
