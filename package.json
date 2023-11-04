@@ -14,7 +14,7 @@
     "lint": "eslint '*/**/*.{ts,tsx}' && npm run prettier:check",
     "prettier:check": "prettier --check '*/**/*.{ts,tsx}'",
     "prettier:fix": "prettier --write '*/**/*.{ts,tsx}'",
-    "test": "jest",
+    "test": "npm run lint && jest",
     "watch": "tsc -w"
   },
   "dependencies": {
