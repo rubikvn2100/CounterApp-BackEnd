@@ -2,6 +2,7 @@ import * as cdk from "aws-cdk-lib";
 import { DatabaseTableStack } from "./DatabaseTableStack";
 import { ApiHandlerStack } from "./ApiHandlerStack";
 import { ApiEndpointStack } from "./ApiEndpointStack";
+import { AlarmNotificationStack } from "./AlarmNotificationStack";
 import { Construct } from "constructs";
 
 export class AppStage extends cdk.Stage {
@@ -20,6 +21,10 @@ export class AppStage extends cdk.Stage {
     new ApiEndpointStack(this, "ApiEndpointStack", {
       stageName: stageName,
       apiHandler: apiHandlerStack.apiHandler,
+    });
+
+    new AlarmNotificationStack(this, "AlarmNotificationStack", {
+      stageName: stageName,
     });
   }
 }
