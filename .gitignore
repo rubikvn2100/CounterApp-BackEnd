@@ -9,3 +9,4 @@ cdk.out
 
 # Code artifacts
 config
+lambda_code
