@@ -1,6 +1,7 @@
 import * as cdk from "aws-cdk-lib";
 import { DatabaseTableStack } from "./DatabaseTableStack";
 import { ApiHandlerStack } from "./ApiHandlerStack";
+import { ApiEndpointStack } from "./ApiEndpointStack";
 import { Construct } from "constructs";
 
 export class AppStage extends cdk.Stage {
@@ -12,8 +13,13 @@ export class AppStage extends cdk.Stage {
       "DatabaseTableStack",
     );
 
-    new ApiHandlerStack(this, "ApiHandlerStack", {
+    const apiHandlerStack = new ApiHandlerStack(this, "ApiHandlerStack", {
       DatabaseTable: databaseTableStack.DatabaseTable,
+    });
+
+    new ApiEndpointStack(this, "ApiEndpointStack", {
+      stageName: stageName,
+      apiHandler: apiHandlerStack.apiHandler,
     });
   }
 }
