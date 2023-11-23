@@ -3,6 +3,7 @@ import { DatabaseTableStack } from "./DatabaseTableStack";
 import { ApiHandlerStack } from "./ApiHandlerStack";
 import { ApiEndpointStack } from "./ApiEndpointStack";
 import { AlarmNotificationStack } from "./AlarmNotificationStack";
+import { ApiEndpointCloudwatchStack } from "./ApiEndpointCloudwatchStack";
 import { Construct } from "constructs";
 
 export class AppStage extends cdk.Stage {
@@ -23,8 +24,16 @@ export class AppStage extends cdk.Stage {
       apiHandler: apiHandlerStack.apiHandler,
     });
 
-    new AlarmNotificationStack(this, "AlarmNotificationStack", {
-      stageName: stageName,
+    const alarmNotificationStack = new AlarmNotificationStack(
+      this,
+      "AlarmNotificationStack",
+      {
+        stageName: stageName,
+      },
+    );
+
+    new ApiEndpointCloudwatchStack(this, "ApiEndpointCloudwatchStack", {
+      alarmTopic: alarmNotificationStack.alarmTopic,
     });
   }
 }
