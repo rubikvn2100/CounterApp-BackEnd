@@ -5,7 +5,8 @@ import {
   ShellStep,
   IFileSetProducer,
 } from "aws-cdk-lib/pipelines";
-import { githubSource } from "../config/config";
+import { stages, githubSource } from "../config/config";
+import { AppStage } from "./AppStage";
 import { Construct } from "constructs";
 
 function createGitHubSource(repoSuffix: string): IFileSetProducer {
@@ -23,7 +24,7 @@ export class BackEndStack extends cdk.Stack {
     const repoSuffixes = ["", "-Config"];
     const [sourceCode, configCode] = repoSuffixes.map(createGitHubSource);
 
-    new CodePipeline(this, "CounterAppBackEndPipeline", {
+    const appPipeline = new CodePipeline(this, "CounterAppBackEndPipeline", {
       pipelineName: "CounterAppBackEndPipeline",
       synth: new ShellStep("AppSynth", {
         input: sourceCode,
@@ -35,5 +36,16 @@ export class BackEndStack extends cdk.Stack {
       }),
       crossAccountKeys: true,
     });
+
+    for (const stage of stages) {
+      appPipeline.addStage(
+        new AppStage(this, stage.stageName, {
+          env: {
+            account: stage.account,
+            region: stage.region,
+          },
+        }),
+      );
+    }
   }
 }
