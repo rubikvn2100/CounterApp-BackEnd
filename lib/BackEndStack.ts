@@ -21,8 +21,15 @@ export class BackEndStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const repoSuffixes = ["", "-Config"];
-    const [sourceCode, configCode] = repoSuffixes.map(createGitHubSource);
+    const repoSuffixes = ["", "-Config", "-Lambda"];
+    const [sourceCode, configCode, lambdaCode] =
+      repoSuffixes.map(createGitHubSource);
+
+    const buildLambda = new ShellStep("BuildLambda", {
+      input: lambdaCode,
+      commands: ["./setup_and_test.sh"],
+      primaryOutputDirectory: "./src",
+    });
 
     const appPipeline = new CodePipeline(this, "CounterAppBackEndPipeline", {
       pipelineName: "CounterAppBackEndPipeline",
@@ -30,6 +37,7 @@ export class BackEndStack extends cdk.Stack {
         input: sourceCode,
         additionalInputs: {
           config: configCode,
+          lambda_code: buildLambda,
         },
         commands: ["npm ci", "npm run deploy"],
         primaryOutputDirectory: "cdk.out",
