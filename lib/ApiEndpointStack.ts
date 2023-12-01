@@ -28,7 +28,7 @@ export class ApiEndpointStack extends cdk.Stack {
 
     apiEndpoint.deploymentStage = new apigateway.Stage(
       this,
-      `ApiEndpoint${props.stageName}`,
+      `ApiEndpointDeploymentStage.${props.stageName}`,
       {
         deployment: apiEndpointDeployment,
         stageName: props.stageName,
