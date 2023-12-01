@@ -16,6 +16,7 @@ export class AppStage extends cdk.Stage {
     );
 
     const apiHandlerStack = new ApiHandlerStack(this, "ApiHandlerStack", {
+      stageName: stageName,
       DatabaseTable: databaseTableStack.DatabaseTable,
     });
 
