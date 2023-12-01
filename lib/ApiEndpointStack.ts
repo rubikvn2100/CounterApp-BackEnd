@@ -51,6 +51,10 @@ export class ApiEndpointStack extends cdk.Stack {
       operationName: "createSessionToken",
     });
 
+    counterResource.addMethod("OPTIONS", databaseHandlerIntegration, {
+      operationName: "corsPreflightForCounterResource",
+    });
+
     counterResource.addMethod("GET", databaseHandlerIntegration, {
       operationName: "getCounter",
     });
