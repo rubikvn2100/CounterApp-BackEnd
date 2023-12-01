@@ -20,7 +20,7 @@ export class ApiEndpointStack extends cdk.Stack {
 
     const apiEndpointDeployment = new apigateway.Deployment(
       this,
-      "ApiEndpointDeployment",
+      `ApiEndpointDeployment${new Date().toISOString()}`,
       {
         api: apiEndpoint,
       },
