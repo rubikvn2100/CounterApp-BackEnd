@@ -3,7 +3,7 @@ import { DatabaseTableStack } from "./DatabaseTableStack";
 import { ApiHandlerStack } from "./ApiHandlerStack";
 import { ApiEndpointStack } from "./ApiEndpointStack";
 import { AlarmNotificationStack } from "./AlarmNotificationStack";
-import { ApiEndpointCloudwatchStack } from "./ApiEndpointCloudwatchStack";
+import { CloudwatchStack } from "./CloudwatchStack";
 import { Construct } from "constructs";
 
 export class AppStage extends cdk.Stage {
@@ -33,7 +33,7 @@ export class AppStage extends cdk.Stage {
       },
     );
 
-    new ApiEndpointCloudwatchStack(this, "ApiEndpointCloudwatchStack", {
+    new CloudwatchStack(this, "CloudwatchStack", {
       alarmTopic: alarmNotificationStack.alarmTopic,
     });
   }
